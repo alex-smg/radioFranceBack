@@ -1,30 +1,36 @@
 let express = require('express');
 let router = express.Router();
-
+let bcrypt = require('bcrypt');
+let jwt = require('jsonwebtoken');
 let mongoose = require('mongoose');
+
+const secret = 'secret';
 
 
 let Person = require('../models/Person');
 
 /* GET users listing. */
 router.post('/login', function (req, res) {
-  console.log(req)
+  console.log(req.body)
   Person.findOne({
     email: req.body.email
-  })
-      .then(person => {
-        console.log(person);
+  }).then(person => {
         if(person) {
+          console.log(person);
           if(bcrypt.compareSync(req.body.password, person.password)) {
+            console.log('test')
             const payload = {
               _id : person._id,
               email: person.email,
               firstname: person.firstname,
               lastname: person.lastname,
             };
-            let token = jwt.sign(payload, process.env.SECRET_key, {
+            let token = jwt.sign(payload, secret, {
               expiresIn:  1440
             });
+            console.log(token);
+            console.log(payload);
+            console.log(token);
 
             return res.json({
               token,
