@@ -30,8 +30,10 @@ const corsOpts = {
 app.use(cors(corsOpts));
 
 app.use('/person', require('./routes/person'));
+app.use('/categorie', require('./routes/categorie'));
+app.use('/status', require('./routes/status'));
 
-app.listen(8000);
+app.listen(3000);
 
 module.exports = app;
 
