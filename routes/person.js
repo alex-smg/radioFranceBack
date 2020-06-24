@@ -50,6 +50,19 @@ router.post('/login', function (req, res) {
       })
 });
 
+router.get("/:id", function(req,res) {
+  Person.findById(req.params.id).populate('categories')
+      .then(person => {
+        finalPerson = {
+          id: person.id,
+          email: person.email,
+          firstname: person.firstname,
+          lastname: person.lastname,
+        };
+        res.json(finalPerson);
+      })
+});
+
 router.post('/', function (req, res) {
   console.log(req.body);
   new Promise((resolve, reject) => {
